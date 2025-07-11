@@ -1,9 +1,8 @@
-import sbtassembly.AssemblyPlugin
-import sbtassembly.AssemblyPlugin.autoImport._
+import sbt.Keys.libraryDependencies
+import sbtrelease.ReleaseStateTransformations._
 
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
-ThisBuild / scalaVersion := "2.12.14"
 
 lazy val artifacts = new {
   val scalaV= "2.12.14"
@@ -56,6 +55,3 @@ lazy val root = (project in file("."))
 
     libraryDependencies ++= artifacts.sparkStreaming
   )
-
-
-enablePlugins(AssemblyPlugin)
