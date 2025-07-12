@@ -1,0 +1,18 @@
+{
+  "ruleDefinitionRequest": {
+    "ruleId": "string",                // Unique identifier for the rule (for update; omit for create)
+    "name": "string",                   // Name of the rule
+    "description": "string",            // Description of the rule
+    "inputEventType": "string",         // Type of input event this rule applies to, e.g., "transaction", "sensor_reading"
+    "parameters": [                       // List of parameters used in the rule
+      {
+        "name": "string",               // Parameter name, e.g., "a"
+        "type": "number|string|boolean", // Data type
+        "defaultValue": "any",          // Optional default value
+        "description": "string"         // Optional description
+      }
+    ],
+    "expression": "string",              // The boolean expression, e.g., "a>100 and b<50" a<100 or b>50", a==100"
+    "enabled": true                       // Whether the rule is active
+  }
+}

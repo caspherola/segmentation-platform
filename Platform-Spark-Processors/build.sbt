@@ -14,17 +14,16 @@ lazy val artifacts = new {
     "org.apache.spark" %% "spark-core" % sparkV,
     "org.apache.spark" %% "spark-streaming" % sparkV,
     "org.apache.spark" %% "spark-streaming-kafka-0-10" % sparkV,
-//    "org.apache.spark" %% "spark-sqk-kafka-0-10" % sparkV
   )
 
   val yamlParser = Seq("org.yaml" % "snakeyaml" % "1.33")
 }
 
 lazy val commonSettings = Seq(
-  organization:="com.cred.platform",
-  name:= "Platform-Spark-Processors",
-  scalaVersion:= artifacts.scalaV,
-  scalacOptions++=Seq(
+  organization := "com.cred.platform.segmentation",
+  name := "Platform-Spark-Processors",
+  scalaVersion := artifacts.scalaV,
+  scalacOptions ++= Seq(
     "-encoding", "UTF-8",
     "-Xfatal-warnings",
     "-deprecation",
@@ -53,5 +52,5 @@ lazy val root = (project in file("."))
   .settings(commonSettings)
   .settings(
 
-    libraryDependencies ++= artifacts.sparkStreaming
+    libraryDependencies ++= artifacts.sparkStreaming ++ artifacts.yamlParser
   )
