@@ -1,7 +1,7 @@
-package processors.aggregator
+package com.cred.platform.processors.processors.aggregator
 
-import com.cred.segmentation.commons.{Processor, ProcessorContext}
-import com.cred.segmentation.commons.model.Step
+import com.cred.platform.processors.commons.{Processor, ProcessorContext}
+import com.cred.platform.processors.commons.model.Step
 import org.apache.spark.sql.functions.{col, window, max, min, sum, count, avg, when, expr}
 
 object GroupbyProcessor extends Processor {

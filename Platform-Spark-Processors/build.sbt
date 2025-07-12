@@ -20,7 +20,7 @@ lazy val artifacts = new {
 }
 
 lazy val commonSettings = Seq(
-  organization := "com.cred.platform.segmentation",
+  organization := "com.cred.platform.processors",
   name := "Platform-Spark-Processors",
   scalaVersion := artifacts.scalaV,
   scalacOptions ++= Seq(

@@ -1,7 +1,6 @@
-package com.cred.segmentation
-package commons
+package com.cred.platform.processors.commons
 
-import com.cred.segmentation.commons.model.Step
+import com.cred.platform.processors.commons.model.Step
 import org.apache.spark.sql.DataFrame
 
 trait Processor {

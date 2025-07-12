@@ -1,5 +1,4 @@
-package com.cred.segmentation
-package commons.model
+package com.cred.platform.processors.commons.model
 
 import scala.beans.BeanProperty
 

@@ -1,7 +1,7 @@
-package processors.transformers
+package com.cred.platform.processors.processors.transformers
 
-import com.cred.segmentation.commons.model.Step
-import com.cred.segmentation.commons.{Processor, ProcessorContext}
+import com.cred.platform.processors.commons.{Processor, ProcessorContext}
+import com.cred.platform.processors.commons.model.Step
 import org.apache.spark.sql.functions.expr
 
 import scala.collection.JavaConverters

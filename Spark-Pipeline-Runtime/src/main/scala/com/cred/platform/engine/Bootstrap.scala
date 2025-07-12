@@ -6,8 +6,11 @@ import com.cred.platform.engine.rules.RuleRunner
 import com.cred.platform.engine.utility.WebClient.fetchJobData
 import com.cred.segmentation.commons.Processor
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.scala.DefaultScalaModule
+
+import io.circe.Json
 import io.circe.yaml.syntax.AsYaml
-import io.circe.{Json, parser}
+import io.circe.parser._
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.CharSet
 import org.reflections.Reflections
@@ -64,21 +67,17 @@ object Bootstrap {
   def getPipelineContext(jobId: String): String= {
     val mapper=new ObjectMapper()
     var yamlString: String = null
-    val result= fetchJobData(jobId)
-    if(result== null || result.isEmpty) {
-      throw new IllegalArgumentException(s"Job data for jobId $jobId is empty or null")
-    }
-    val pipelineResponseParse=mapper.readTree(result.get)
+    val result= fetchJobData(jobId).get
+    val pipelineResponseParse=mapper.readTree(result)
     val rawPipeline=pipelineResponseParse.at("/config_data").toString
     try {
-      val jsonValue= parser.parse(rawPipeline).getOrElse(Json.Null)
-      if(jsonValue.isNull){
+      val jsonValue= parse(rawPipeline).getOrElse(Json.Null)
         yamlString=jsonValue.asYaml.spaces2
-      }
     }catch {
       case e: Exception =>
         throw new IllegalArgumentException(s"Failed to parse pipeline JSON: ${e.getMessage}")
     }
+
     yamlString
   }
 }

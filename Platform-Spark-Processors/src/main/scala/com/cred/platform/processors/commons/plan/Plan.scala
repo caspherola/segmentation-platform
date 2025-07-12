@@ -1,7 +1,6 @@
-package com.cred.segmentation
-package commons.plan
+package com.cred.platform.processors.commons.plan
 
-import commons.model.{Datasource, Step}
+import com.cred.platform.processors.commons.model.{Datasource, Step}
 
 trait Plan extends Iterable [Step]{
   def validPlan():Boolean

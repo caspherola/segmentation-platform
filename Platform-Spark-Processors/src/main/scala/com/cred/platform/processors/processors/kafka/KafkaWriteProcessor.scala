@@ -1,7 +1,7 @@
-package processors.kafka
+package com.cred.platform.processors.processors.kafka
 
-import com.cred.segmentation.commons.{Processor, ProcessorContext}
-import com.cred.segmentation.commons.model.Step
+import com.cred.platform.processors.commons.{Processor, ProcessorContext}
+import com.cred.platform.processors.commons.model.Step
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.streaming.DataStreamWriter
 

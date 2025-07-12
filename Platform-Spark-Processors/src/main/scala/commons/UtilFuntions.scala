@@ -1,6 +1,0 @@
-package commons
-
-object UtilFuntions {
-
-
-}

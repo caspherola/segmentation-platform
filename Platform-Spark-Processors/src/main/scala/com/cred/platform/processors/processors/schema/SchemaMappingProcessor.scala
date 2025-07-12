@@ -1,7 +1,7 @@
-package processors.schema
+package com.cred.platform.processors.processors.schema
 
-import com.cred.segmentation.commons.{Processor, ProcessorContext}
-import com.cred.segmentation.commons.model.Step
+import com.cred.platform.processors.commons.{Processor, ProcessorContext}
+import com.cred.platform.processors.commons.model.Step
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, from_json}
 import org.apache.spark.sql.types.{DataType, StructType}

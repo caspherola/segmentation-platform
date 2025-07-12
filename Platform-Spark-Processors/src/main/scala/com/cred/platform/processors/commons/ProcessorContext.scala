@@ -1,7 +1,6 @@
-package com.cred.segmentation
-package commons
+package com.cred.platform.processors.commons
 
-import com.cred.segmentation.commons.plan.Plan
+import com.cred.platform.processors.commons.plan.Plan
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 import org.apache.spark.sql.streaming.DataStreamWriter
 

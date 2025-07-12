@@ -26,7 +26,7 @@ lazy val artifacts = new {
   val okhttp = Seq("com.squareup.okhttp3" % "okhttp" % "4.11.0")
   val reflection= Seq("org.reflections" % "reflections" % "0.10.2")
 
-  val platformProcessors = Seq("com.cred.platform.segmentation" % "Platform-Spark-Processors" % "0.1.0-SNAPSHOT" from "file:///Users/senyarav/workspace/segmentation-platform/Platform-Spark-Processors/target/scala-2.12/Platform-Spark-Processors-assembly-0.1.0-SNAPSHOT.jar"  )
+  val platformProcessors = Seq("com.cred.platform.processors" % "Platform-Spark-Processors" % "0.1.0-SNAPSHOT" from "file:///Users/senyarav/workspace/segmentation-platform/Platform-Spark-Processors/target/scala-2.12/Platform-Spark-Processors-assembly-0.1.0-SNAPSHOT.jar"  )
 
 }
 
