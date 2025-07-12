@@ -1,17 +1,71 @@
 package com.cred.segmentation.platform.application;
 
+import com.cred.segmentation.platform.application.model.RuleDefinitionRequest;
+import com.cred.segmentation.platform.application.model.SegmentCreationRequest;
+import com.cred.segmentation.platform.application.service.SegmentPipelineService;
+
+import java.util.ArrayList;
+import java.util.List;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        try {
+            // Create sample request
+            SegmentCreationRequest request = createSampleRequest();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+            // Create service
+            SegmentPipelineService service = new SegmentPipelineService();
+
+            // Generate pipeline
+            String pipelineJson = service.generatePipeline(request);
+
+            System.out.println("Generated Pipeline JSON:");
+            System.out.println(pipelineJson);
+
+        } catch (Exception e) {
+            System.err.println("Error generating pipeline: " + e.getMessage());
+            e.printStackTrace();
         }
+    }
+
+    private static SegmentCreationRequest createSampleRequest() {
+        // Create parameters
+        List<RuleDefinitionRequest.Parameter> parameters = new ArrayList<>();
+
+        RuleDefinitionRequest.Parameter amountParam = new RuleDefinitionRequest.Parameter();
+        amountParam.setName("amount");
+        amountParam.setType("number");
+        amountParam.setDescription("Transaction amount");
+        parameters.add(amountParam);
+
+        RuleDefinitionRequest.Parameter reading = new RuleDefinitionRequest.Parameter();
+        reading.setName("reading");
+        reading.setType("number");
+        reading.setDescription("Transaction reading");
+        parameters.add(reading);
+
+        RuleDefinitionRequest.Parameter typeParam = new RuleDefinitionRequest.Parameter();
+        typeParam.setName("transactionType");
+        typeParam.setType("string");
+        typeParam.setDescription("Transaction type");
+        parameters.add(typeParam);
+
+        // Create rule definition
+        RuleDefinitionRequest ruleRequest = new RuleDefinitionRequest();
+        ruleRequest.setRuleId("RULE_001");
+        ruleRequest.setName("Transaction Segmentation Rule");
+        ruleRequest.setDescription("Segments transactions based on amount and type");
+        ruleRequest.setInputEventType("transaction");
+        ruleRequest.setParameters(parameters);
+        ruleRequest.setExpression("amount > 100 and transactionType == 'credit' or amount < 50 and reading < 10");
+        ruleRequest.setEnabled(true);
+
+        // Create main request
+        SegmentCreationRequest request = new SegmentCreationRequest();
+        request.setRuleDefinitionRequest(ruleRequest);
+
+        return request;
     }
 }
