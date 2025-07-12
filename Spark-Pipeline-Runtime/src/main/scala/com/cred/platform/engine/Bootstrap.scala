@@ -69,7 +69,7 @@ object Bootstrap {
       throw new IllegalArgumentException(s"Job data for jobId $jobId is empty or null")
     }
     val pipelineResponseParse=mapper.readTree(result.get)
-    val rawPipeline=pipelineResponseParse.at("/pipeline").toString
+    val rawPipeline=pipelineResponseParse.at("/config_data").toString
     try {
       val jsonValue= parser.parse(rawPipeline).getOrElse(Json.Null)
       if(jsonValue.isNull){

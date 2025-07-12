@@ -15,6 +15,10 @@ public class PipelineBuilder {
 
     public PipelineBuilder withRuleSetInfo(String name, String description, String version, String id) {
         pipeline.setRuleSetInfo(new RuleSetInfo(name, description, version, id));
+        Map<String, String> sparkConfig = new HashMap<>();
+        sparkConfig.put("spark.master", "local[4,2]");
+        sparkConfig.put("spark.sql.checkpointLocation", "/tmp/spark-checkpoint/" + id);
+        pipeline.setSparkContextConfig(sparkConfig);
         return this;
     }
 

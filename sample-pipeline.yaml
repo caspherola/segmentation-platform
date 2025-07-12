@@ -1,0 +1,50 @@
+rulesetInfo:
+  moduleName: sample-pipeline
+  ruleCategory: "ingestionOnboarding"
+  ruleId: "1"
+  ruleVersion: "1.0.0"
+sparkContextConfig:
+  spark.sql.streaming.checkpointLocation: "/tmp/checkpoint"
+  spark.master: "local[4,2]"
+pipelineRuleDefinition:
+  datasource:
+    - sourceType: "kafka"
+      sourceName: "inputKafkaSource"
+      params:
+        kafka.bootstrap.servers: "localhost:9092"
+        subscribe: "input-topic"
+        failOnDataLoss: false
+    - sourceType: "kafka"
+      sourceName: "segementationInsightesOutput"
+      params:
+        kafka.bootstrap.servers: "localhost:9092"
+        topic: "insights-output-topic"
+  pipelineFlow:
+    - stepName: "readInputEventData"
+      stepType: READ_KAFKA
+      params:
+        sourceName: "inputKafkaSource"
+        reader.options.startingOffsets: "latest"
+        reader.options.maxOffsetsPerTrigger: "1000"
+      outputStream: [rawEventsStreamForParamA]
+    - stepName: "map schema on raw events"
+      stepType: SCHEMA_MAPPING
+      params:
+        schema: "schemaString"
+      inputStream: [rawEventsStreamForParamA]
+      outputStream: [schemaMappedStreamforA]
+    - stepName: "applySegementationLogic"
+      stepType: ADD_COLUMNS
+      params:
+        column.: "schemaString"
+      inputStream: [schemaMappedStreamforA]
+      outputStream: [schemaMappedStream]
+
+    - stepName: "processData"
+      stepType: "transform"
+      transformLogic: |
+        import org.apache.spark.sql.functions._
+        df.withColumn("processedData", concat(col("value"), lit("_processed")))
+    - stepName: "writeOutputData"
+      stepType: "write"
+      sink: "segementationInsightesOutput"

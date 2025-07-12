@@ -12,7 +12,7 @@ object WebClient {
     .writeTimeout(30, TimeUnit.SECONDS)
     .build()
 
-  private val baseUrl = "https://api.example.com"  // Replace with your actual base URL
+  private val baseUrl = "http://localhost:8080"  // Replace with your actual base URL
 
   /**
    * Fetches data from the API for a given job ID
@@ -23,7 +23,7 @@ object WebClient {
   def fetchJobData(jobId: String): Option[String] = {
     var result: String=null;
     val request = new Request.Builder()
-      .url(s"$baseUrl/jobs/$jobId")
+      .url(s"$baseUrl/api/v1/pipeline-configurations/$jobId")
       .get()
       .build()
 

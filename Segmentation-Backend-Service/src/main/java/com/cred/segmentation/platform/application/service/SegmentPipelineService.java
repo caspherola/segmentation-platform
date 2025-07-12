@@ -7,7 +7,9 @@ import com.cred.segmentation.platform.application.strategy.DefaultPipelineGenera
 import com.cred.segmentation.platform.application.strategy.PipelineGenerationStrategy;
 import com.cred.segmentation.platform.application.validator.ExpressionValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SegmentPipelineService {
     private final PipelineGenerationStrategy strategy;
     private final ObjectMapper objectMapper;
