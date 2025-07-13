@@ -1,11 +1,11 @@
 app:
   kafka:
-    topic: segment-insights
+    topic: segmentation_output_topic
   cache:
     ttl: 3600 # 1 hour in seconds
 spring:
   application:
-    name: pipeline-configuration-service
+    name: audience-manager-platform
   redis:
     host: localhost
     port: 6379

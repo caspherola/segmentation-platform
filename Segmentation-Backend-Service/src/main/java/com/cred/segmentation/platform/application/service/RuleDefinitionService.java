@@ -42,6 +42,7 @@ public class RuleDefinitionService {
     public RuleDefinitionResponse createRule(SegmentCreationRequest request) {
         validateRuleRequest(request);
 
+
         String ruleId = request.getRuleDefinitionRequest().getRuleId();
         if (ruleId != null && repository.existsByRuleId(ruleId)) {
             throw new DuplicateRuleIdException("Rule with ID '" + ruleId + "' already exists");

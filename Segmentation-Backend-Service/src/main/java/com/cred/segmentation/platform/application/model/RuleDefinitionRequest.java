@@ -11,7 +11,6 @@ import java.util.List;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RuleDefinitionRequest {
-    @JsonProperty("ruleId")
     private String ruleId;
     @NotBlank(message = "Name cannot be blank")
     private String name;
