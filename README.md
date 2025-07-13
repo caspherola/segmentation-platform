@@ -37,7 +37,7 @@ The system is built around event-driven architecture principles, meaning each co
 │  ┌─────────────────────────────────────────────────────────────────────────────┐ │
 │  │                         INFRASTRUCTURE LAYER                               │ │
 │  │                                                                             │ │
-│  │  Kafka • PostgreSQL • Redis • Spark • Kubernetes • Monitoring             │ │
+│  │  Kafka • PostgreSQL • Redis • Spark • Monitoring             
 │  └─────────────────────────────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────────────────────┘
 ```
