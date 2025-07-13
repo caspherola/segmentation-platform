@@ -1,7 +1,30 @@
+app:
+  kafka:
+    topic: segment-insights
+  cache:
+    ttl: 3600 # 1 hour in seconds
 spring:
   application:
     name: pipeline-configuration-service
-
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 2000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1ms
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: segment-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
   datasource:
     url: jdbc:postgresql://localhost:5432/segmentation_plaform
     username: postgres

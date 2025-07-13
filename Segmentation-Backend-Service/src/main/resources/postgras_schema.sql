@@ -42,3 +42,14 @@ CREATE INDEX IF NOT EXISTS idx_rule_definitions_enabled ON rule_definitions(enab
 CREATE INDEX IF NOT EXISTS idx_rule_definitions_input_event_type ON rule_definitions(input_event_type);
 CREATE INDEX IF NOT EXISTS idx_rule_parameters_rule_definition_id ON rule_parameters(rule_definition_id);
 
+CREATE TABLE events (
+    id BIGSERIAL PRIMARY KEY,
+    event_type VARCHAR(100) NOT NULL,
+    topic_name VARCHAR(200) NOT NULL,
+    schema TEXT NOT NULL
+);
+
+-- Add indexes for better performance
+CREATE INDEX idx_events_event_type ON events(event_type);
+CREATE INDEX idx_events_topic_name ON events(topic_name);
+CREATE INDEX idx_events_event_type_topic_name ON events(event_type, topic_name);

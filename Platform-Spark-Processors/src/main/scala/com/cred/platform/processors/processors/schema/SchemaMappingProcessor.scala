@@ -2,6 +2,8 @@ package com.cred.platform.processors.processors.schema
 
 import com.cred.platform.processors.commons.{Processor, ProcessorContext}
 import com.cred.platform.processors.commons.model.Step
+import com.cred.platform.processors.processors.WebClient
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, from_json}
 import org.apache.spark.sql.types.{DataType, StructType}
@@ -19,7 +21,12 @@ object SchemaMappingProcessor extends Processor{
       throw new IllegalArgumentException("Input DataFrame cannot be null for SchemaMappingProcessor")
     }
     // Extract the schema mapping from the step parameters
-    val schemaMapping = "{\"type\":\"struct\",\"fields\":[{\"name\":\"amount\",\"type\":\"double\",\"nullable\":true,\"metadata\":{}},{\"name\":\"currency\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"status\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"timestamp\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"transactionId\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"type\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"userId\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}}]}"
+    val response = WebClient.fetchJobData(step.params.get("eventId")).get
+    val mapper=new ObjectMapper()
+    val jsonData=mapper.readTree(response)
+    val schemaMapping=jsonData.at("/schema").toString
+    println(s"Schema mapping: $schemaMapping")
+
     if (schemaMapping == null || schemaMapping.isEmpty) {
       throw new IllegalArgumentException("Schema mapping must be provided in the step parameters")
     }

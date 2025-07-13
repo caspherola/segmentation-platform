@@ -15,12 +15,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.cred.segmentation.platform.application.repository")
 @EnableTransactionManagement
 @ComponentScan(basePackages = {"com.cred.segmentation.platform"})
+@EnableKafka
 public class Main {
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);

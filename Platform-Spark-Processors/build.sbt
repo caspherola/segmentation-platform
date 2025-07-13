@@ -17,6 +17,8 @@ lazy val artifacts = new {
   )
 
   val yamlParser = Seq("org.yaml" % "snakeyaml" % "1.33")
+  val okhttp = Seq("com.squareup.okhttp3" % "okhttp" % "4.11.0")
+
 }
 
 lazy val commonSettings = Seq(
@@ -52,5 +54,5 @@ lazy val root = (project in file("."))
   .settings(commonSettings)
   .settings(
 
-    libraryDependencies ++= artifacts.sparkStreaming ++ artifacts.yamlParser
+    libraryDependencies ++= artifacts.sparkStreaming ++ artifacts.yamlParser ++ artifacts.okhttp
   )
