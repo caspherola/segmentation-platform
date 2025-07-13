@@ -1,5 +1,6 @@
 package com.cred.segmentation.platform.application.strategy;
 
+import com.cred.segmentation.platform.application.dto.EventsStreamOutputDto;
 import com.cred.segmentation.platform.application.model.*;
 import com.cred.segmentation.platform.application.util.ExpressionToSqlConverter;
 
@@ -22,12 +23,12 @@ public class PipelineBuilder {
         return this;
     }
 
-    public PipelineBuilder withDataSources(String inputTopic, String outputTopic) {
+    public PipelineBuilder withDataSources(EventsStreamOutputDto inputTopicDetails, String outputTopic) {
         List<DataSource> dataSources = new ArrayList<>();
 
         // Input Kafka source
         Map<String, String> inputParams = new HashMap<>();
-        inputParams.put("subscribe", inputTopic);
+        inputParams.put("subscribe", inputTopicDetails.getTopicName());
         inputParams.put("kafka.bootstrap.servers", "localhost:9092");
         dataSources.add(new DataSource("kafka", "kafkaSource", inputParams));
 
@@ -44,7 +45,8 @@ public class PipelineBuilder {
         return this;
     }
 
-    public PipelineBuilder withPipelineSteps(String expression, List<RuleDefinitionRequest.Parameter> parameters, String segmentId) {
+
+    public PipelineBuilder withPipelineSteps(String expression, List<RuleDefinitionRequest.Parameter> parameters, String segmentId, Long inputEventId) {
         List<PipelineStep> steps = new ArrayList<>();
 
         // Step 1: Read from Kafka
@@ -59,7 +61,7 @@ public class PipelineBuilder {
         PipelineStep schemaStep = new PipelineStep("apply schema mapping", "SCHEMA_MAPPING");
         schemaStep.setInputStream(Arrays.asList("DATA_READ_KAFKA_STEP1"));
         schemaStep.setOutputStream(Arrays.asList("SCHEMA_APPLIED_STEP" + stepCounter++));
-        schemaStep.getParams().put("schema", "kafkaSource");
+        schemaStep.getParams().put("eventId", inputEventId.toString());
         steps.add(schemaStep);
 
         // Step 3: Add Derived Fields

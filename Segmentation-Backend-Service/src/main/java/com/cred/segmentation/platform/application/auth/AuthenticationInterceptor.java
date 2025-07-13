@@ -5,9 +5,10 @@ import com.cred.segmentation.platform.application.model.SegmentationCreateUser;
 import com.cred.segmentation.platform.application.service.impl.AuthenticationService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;  // Changed from javax to jakarta
+import jakarta.servlet.http.HttpServletResponse;
 
+@Component
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
     private final AuthenticationService authenticationService;

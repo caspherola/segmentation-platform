@@ -18,6 +18,10 @@ public class RuleDefinitionRequest {
     @NotBlank(message = "Input event type cannot be blank")
     @JsonProperty("inputEventType")
     private String inputEventType;
+    @JsonProperty("inputEventId")
+    private Long inputEventId;
+    @JsonProperty("code")
+    private String code;
     private List<Parameter> parameters;
     @NotBlank(message = "Expression cannot be blank")
     @JsonProperty("expression")

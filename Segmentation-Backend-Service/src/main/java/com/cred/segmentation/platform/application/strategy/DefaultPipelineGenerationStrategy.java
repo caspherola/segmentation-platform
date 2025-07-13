@@ -1,13 +1,23 @@
 package com.cred.segmentation.platform.application.strategy;
 
+import com.cred.segmentation.platform.application.dto.EventsStreamOutputDto;
+import com.cred.segmentation.platform.application.dto.PipelineConfigurationResponse;
 import com.cred.segmentation.platform.application.model.PipelineConfiguration;
 import com.cred.segmentation.platform.application.model.RuleDefinitionRequest;
 import com.cred.segmentation.platform.application.model.SegmentCreationRequest;
+import com.cred.segmentation.platform.application.service.impl.DataIngestionOnboardingServiceImpl;
+import com.cred.segmentation.platform.application.service.impl.PipelineConfigurationServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class DefaultPipelineGenerationStrategy implements PipelineGenerationStrategy {
+    @Autowired
+    private DataIngestionOnboardingServiceImpl eventService;
+
     @Override
     public PipelineConfiguration generatePipeline(SegmentCreationRequest request) {
         RuleDefinitionRequest ruleRequest = request.getRuleDefinitionRequest();
+        EventsStreamOutputDto outputDto=eventService.getEventById(ruleRequest.getInputEventId());
 
         return new PipelineBuilder()
                 .withRuleSetInfo(
@@ -17,13 +27,14 @@ public class DefaultPipelineGenerationStrategy implements PipelineGenerationStra
                         ruleRequest.getRuleId()
                 )
                 .withDataSources(
-                        ruleRequest.getInputEventType() + "-topic",
+                        outputDto,
                         "segmentation-output-topic"
                 )
                 .withPipelineSteps(
                         ruleRequest.getExpression(),
                         ruleRequest.getParameters(),
-                        ruleRequest.getRuleId()
+                        ruleRequest.getRuleId(),
+                        outputDto.getId()
                 )
                 .build();
     }

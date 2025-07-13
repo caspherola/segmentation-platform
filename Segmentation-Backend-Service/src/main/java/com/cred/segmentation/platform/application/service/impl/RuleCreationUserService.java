@@ -1,11 +1,13 @@
 package com.cred.segmentation.platform.application.service.impl;
 
 import com.cred.segmentation.platform.application.model.SegmentationCreateUser;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+@Service
 public class RuleCreationUserService {
     private final Map<String, SegmentationCreateUser> users;
 

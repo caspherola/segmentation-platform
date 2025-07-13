@@ -64,9 +64,10 @@ public class RuleDefinitionService {
             ruleParameterRespository.save(parameter);
         }
         try {
+            String partitionKey=request.getRuleDefinitionRequest().getInputEventId()+ "-" + request.getRuleDefinitionRequest().getInputEventType();
             String pipeline=pipelineService.generatePipeline(request);
             PipelineConfigurationResponse pipelineConfigurationResponse=pipelineConfigurationService.createConfiguration
-                    (new PipelineConfigurationRequest(savedEntity.getRuleId(), pipeline));
+                    (new PipelineConfigurationRequest(partitionKey, pipeline));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
