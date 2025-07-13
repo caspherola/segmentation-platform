@@ -56,6 +56,7 @@ CREATE INDEX idx_events_event_type_topic_name ON events(event_type, topic_name);
 
 
 
+DROP table events;
 -- Create events table to store event schemas
 CREATE TABLE events (
     id BIGSERIAL PRIMARY KEY,
@@ -70,7 +71,7 @@ CREATE INDEX idx_events_topic_name ON events(topic_name);
 
 -- Insert event schemas in Spark SQL JSON struct format
 INSERT INTO events (event_type, topic_name, schema) VALUES
-('transaction', 'user_transactions', '{"type":"struct","fields":[{"name":"userId","type":"string","nullable":false,"metadata":{}},{"name":"transactionId","type":"string","nullable":false,"metadata":{}},{"name":"amount","type":"decimal(10,2)","nullable":false,"metadata":{}},{"name":"currency","type":"string","nullable":false,"metadata":{}},{"name":"transactionType","type":"string","nullable":false,"metadata":{}},{"name":"merchant","type":"string","nullable":false,"metadata":{}},{"name":"category","type":"string","nullable":false,"metadata":{}},{"name":"timestamp","type":"string","nullable":false,"metadata":{}},{"name":"description","type":"string","nullable":true,"metadata":{}},{"name":"location","type":"string","nullable":true,"metadata":{}}]}'),
+('transaction', 'user_transactions','{"type":"struct","fields":[{"name":"amount","type":"double","nullable":true,"metadata":{}},{"name":"category","type":"string","nullable":true,"metadata":{}},{"name":"currency","type":"string","nullable":true,"metadata":{}},{"name":"description","type":"string","nullable":true,"metadata":{}},{"name":"location","type":"string","nullable":true,"metadata":{}},{"name":"merchant","type":"string","nullable":true,"metadata":{}},{"name":"timestamp","type":"string","nullable":true,"metadata":{}},{"name":"transactionId","type":"string","nullable":true,"metadata":{}},{"name":"transactionType","type":"string","nullable":true,"metadata":{}},{"name":"userId","type":"string","nullable":true,"metadata":{}}]}'),
 
 ('user_onboarding', 'user_onboarding_data', '{"type":"struct","fields":[{"name":"userId","type":"string","nullable":false,"metadata":{}},{"name":"step","type":"string","nullable":false,"metadata":{}},{"name":"timestamp","type":"string","nullable":false,"metadata":{}},{"name":"completionStatus","type":"string","nullable":false,"metadata":{}},{"name":"deviceInfo","type":"string","nullable":true,"metadata":{}},{"name":"ipAddress","type":"string","nullable":true,"metadata":{}},{"name":"referralSource","type":"string","nullable":true,"metadata":{}}]}'),
 

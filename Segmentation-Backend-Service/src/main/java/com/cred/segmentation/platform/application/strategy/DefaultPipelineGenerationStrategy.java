@@ -9,15 +9,20 @@ import com.cred.segmentation.platform.application.service.impl.DataIngestionOnbo
 import com.cred.segmentation.platform.application.service.impl.PipelineConfigurationServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DefaultPipelineGenerationStrategy implements PipelineGenerationStrategy {
-    @Autowired
-    private DataIngestionOnboardingServiceImpl eventService;
+    private final DataIngestionOnboardingServiceImpl eventService;
+
+    public DefaultPipelineGenerationStrategy(DataIngestionOnboardingServiceImpl eventService) {
+        this.eventService = eventService;
+    }
 
     @Override
     public PipelineConfiguration generatePipeline(SegmentCreationRequest request) {
         RuleDefinitionRequest ruleRequest = request.getRuleDefinitionRequest();
-        EventsStreamOutputDto outputDto=eventService.getEventById(ruleRequest.getInputEventId());
+        EventsStreamOutputDto outputDto= eventService.getEventById(ruleRequest.getInputEventId());
 
         return new PipelineBuilder()
                 .withRuleSetInfo(

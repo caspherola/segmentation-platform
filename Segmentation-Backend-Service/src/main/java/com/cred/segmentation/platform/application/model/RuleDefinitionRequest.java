@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RuleDefinitionRequest {
+    @JsonProperty("ruleId")
     private String ruleId;
     @NotBlank(message = "Name cannot be blank")
     private String name;
@@ -20,8 +21,6 @@ public class RuleDefinitionRequest {
     private String inputEventType;
     @JsonProperty("inputEventId")
     private Long inputEventId;
-    @JsonProperty("code")
-    private String code;
     private List<Parameter> parameters;
     @NotBlank(message = "Expression cannot be blank")
     @JsonProperty("expression")

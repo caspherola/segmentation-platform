@@ -14,10 +14,6 @@ public class SegmentPipelineService {
     private final PipelineGenerationStrategy strategy;
     private final ObjectMapper objectMapper;
 
-    public SegmentPipelineService() {
-        this.strategy = new DefaultPipelineGenerationStrategy();
-        this.objectMapper = new ObjectMapper();
-    }
 
     public SegmentPipelineService(PipelineGenerationStrategy strategy) {
         this.strategy = strategy;

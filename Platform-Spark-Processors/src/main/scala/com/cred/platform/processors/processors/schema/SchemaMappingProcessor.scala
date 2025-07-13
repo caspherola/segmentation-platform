@@ -30,8 +30,9 @@ object SchemaMappingProcessor extends Processor{
     if (schemaMapping == null || schemaMapping.isEmpty) {
       throw new IllegalArgumentException("Schema mapping must be provided in the step parameters")
     }
+    val result = schemaMapping.replace("\\", "").stripPrefix("\"").stripSuffix("\"")
     val selectExpr: mutable.MutableList[String] = mutable.MutableList("CAST(key AS STRING) AS key", "CAST(value AS STRING) AS value")
-    val schema = DataType.fromJson(schemaMapping).asInstanceOf[StructType]
+    val schema = DataType.fromJson(result).asInstanceOf[StructType]
     val selectFields = mutable.MutableList("data.*", "key")
 
     // Apply the schema to the value column using from_json
