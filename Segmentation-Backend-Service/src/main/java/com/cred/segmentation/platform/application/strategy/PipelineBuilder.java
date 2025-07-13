@@ -17,7 +17,7 @@ public class PipelineBuilder {
         pipeline.setRuleSetInfo(new RuleSetInfo(name, description, version, id));
         Map<String, String> sparkConfig = new HashMap<>();
         sparkConfig.put("spark.master", "local[4,2]");
-        sparkConfig.put("spark.sql.checkpointLocation", "/tmp/spark-checkpoint/" + id);
+        sparkConfig.put("spark.sql.streaming.checkpointLocation", "/tmp/spark-checkpoint/" + id);
         pipeline.setSparkContextConfig(sparkConfig);
         return this;
     }
@@ -33,14 +33,13 @@ public class PipelineBuilder {
 
         // Output Kafka source
         Map<String, String> outputParams = new HashMap<>();
-        outputParams.put("subscribe", outputTopic);
         outputParams.put("kafka.bootstrap.servers", "localhost:9092");
         dataSources.add(new DataSource("kafka", "kafkaInsightOutput", outputParams));
 
         if (pipeline.getPipelineRuleDefinition() == null) {
             pipeline.setPipelineRuleDefinition(new PipelineRuleDefinition());
         }
-        pipeline.getPipelineRuleDefinition().setDatasource(dataSources);
+        pipeline.getPipelineRuleDefinition().setDataSources(dataSources);
 
         return this;
     }
@@ -97,7 +96,7 @@ public class PipelineBuilder {
         insightStep.getParams().put("column.value",
                 "to_json(struct(uuid() as insightId, segmentId, userId, current_timestamp() as createdAt)) as value");
         insightStep.getParams().put("column.key", "key");
-        insightStep.getParams().put("column.topic", "insight-topic");
+        insightStep.getParams().put("column.topic", "'segmentation_output_topic'");
         steps.add(insightStep);
 
         // Step 7: Select Columns

@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class PipelineRuleDefinition {
-    private List<DataSource> datasource;
+    private List<DataSource> dataSources;
     private List<PipelineStep> pipelineFlow;
 }

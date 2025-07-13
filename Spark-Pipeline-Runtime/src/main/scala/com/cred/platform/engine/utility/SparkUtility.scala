@@ -19,6 +19,7 @@ object SparkUtility {
       }
       spark = SparkSession.builder().config(sparkConfig).getOrCreate()
     }
+    spark.sparkContext.setLogLevel("ERROR")
       spark
   }
 

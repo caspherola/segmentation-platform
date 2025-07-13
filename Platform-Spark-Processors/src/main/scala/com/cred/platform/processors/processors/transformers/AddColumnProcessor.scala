@@ -8,7 +8,7 @@ import scala.collection.JavaConverters
 
 object AddColumnProcessor extends Processor{
 
-  override val processorName: String = "ADD_COLUMN"
+  override val processorName: String = "ADD_COLUMNS"
 
   override def process(step: Step, context: ProcessorContext): Unit = {
     val inputDf= context.getDataframe(step.inputStream(0))

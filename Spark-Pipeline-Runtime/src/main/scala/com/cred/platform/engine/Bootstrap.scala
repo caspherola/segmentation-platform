@@ -4,10 +4,10 @@ package com.cred.platform.engine
 import com.cred.platform.engine.engine.{ProcessorRegistry, SparkJobManager}
 import com.cred.platform.engine.rules.RuleRunner
 import com.cred.platform.engine.utility.WebClient.fetchJobData
-import com.cred.segmentation.commons.Processor
+import com.cred.platform.processors.commons.Processor
+import com.cred.platform.processors.commons.model.PipelineDefinition
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
-
 import io.circe.Json
 import io.circe.yaml.syntax.AsYaml
 import io.circe.parser._
@@ -19,7 +19,7 @@ import org.reflections.scanners.Scanners
 import java.nio.charset.Charset
 
 object Bootstrap {
-  val basePackage = "com.cred.segmentation"
+  val basePackage = "com.cred.platform.processors"
   var runtimeReflection = new Reflections(basePackage, Scanners.values())
   def main(args: Array[String]): Unit = {
     try {
@@ -36,7 +36,7 @@ object Bootstrap {
   }
 
   def registerProcessor(reflections: Reflections): Unit = {
-    val processorClasses = reflections.getSubTypesOf(classOf[com.cred.segmentation.commons.Processor])
+    val processorClasses = reflections.getSubTypesOf(classOf[Processor])
     processorClasses.forEach { processorClass =>
       try {
         val constrcutor=Class.forName(processorClass.getCanonicalName).getDeclaredConstructors()
@@ -52,7 +52,7 @@ object Bootstrap {
 
   def getJobManager(path: String): SparkJobManager = {
     val inputStream = IOUtils.toInputStream(path, Charset.defaultCharset)
-    RuleRunner.getSparkJobs(inputStream)
+    RuleRunner.getSparkJobs(inputStream, path)
   }
 
   def runSparkJob(sparkJobManager: SparkJobManager): Unit={
@@ -72,12 +72,10 @@ object Bootstrap {
     val rawPipeline=pipelineResponseParse.at("/config_data").toString
     try {
       val jsonValue= parse(rawPipeline).getOrElse(Json.Null)
-        yamlString=jsonValue.asYaml.spaces2
     }catch {
       case e: Exception =>
         throw new IllegalArgumentException(s"Failed to parse pipeline JSON: ${e.getMessage}")
     }
-
-    yamlString
+    rawPipeline
   }
 }

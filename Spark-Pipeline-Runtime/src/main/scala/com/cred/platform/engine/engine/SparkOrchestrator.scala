@@ -1,7 +1,7 @@
 package com.cred.platform.engine.engine
 
 import com.cred.platform.engine.utility.SparkUtility
-import com.cred.segmentation.commons.plan.Plan
+import com.cred.platform.processors.commons.plan.Plan
 
 object SparkOrchestrator {
 

@@ -9,11 +9,16 @@ lazy val artifacts = new {
   val sparkV= "3.2.1"
 
   val sparkStreaming = Seq(
-    "org.apache.spark" %% "spark-sql" % sparkV,
+    "org.apache.spark" %% "spark-sql" % sparkV excludeAll(
+      ExclusionRule(organization = "io.netty")
+      ),
     "org.apache.spark" %% "spark-sql-kafka-0-10" % sparkV,
-    "org.apache.spark" %% "spark-core" % sparkV,
+    "org.apache.spark" %% "spark-core" % sparkV excludeAll(
+      ExclusionRule(organization = "io.netty")
+      ),
     "org.apache.spark" %% "spark-streaming" % sparkV,
     "org.apache.spark" %% "spark-streaming-kafka-0-10" % sparkV,
+    "io.netty" % "netty-all" % "4.1.63.Final"
     //    "org.apache.spark" %% "spark-sqk-kafka-0-10" % sparkV
   )
 

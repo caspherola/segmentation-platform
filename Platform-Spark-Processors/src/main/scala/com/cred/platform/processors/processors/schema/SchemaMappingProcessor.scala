@@ -19,13 +19,13 @@ object SchemaMappingProcessor extends Processor{
       throw new IllegalArgumentException("Input DataFrame cannot be null for SchemaMappingProcessor")
     }
     // Extract the schema mapping from the step parameters
-    val schemaMapping = step.params.get("schema")
+    val schemaMapping = "{\"type\":\"struct\",\"fields\":[{\"name\":\"amount\",\"type\":\"double\",\"nullable\":true,\"metadata\":{}},{\"name\":\"currency\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"status\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"timestamp\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"transactionId\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"type\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"userId\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}}]}"
     if (schemaMapping == null || schemaMapping.isEmpty) {
       throw new IllegalArgumentException("Schema mapping must be provided in the step parameters")
     }
     val selectExpr: mutable.MutableList[String] = mutable.MutableList("CAST(key AS STRING) AS key", "CAST(value AS STRING) AS value")
     val schema = DataType.fromJson(schemaMapping).asInstanceOf[StructType]
-    val selectFields = mutable.MutableList("data.*")
+    val selectFields = mutable.MutableList("data.*", "key")
 
     // Apply the schema to the value column using from_json
     val parsedDf = inputDf

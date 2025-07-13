@@ -12,7 +12,7 @@ object FilterProcessor extends Processor {
 
   override def process(step: Step, context: ProcessorContext): Unit = {
     val inputDf = context.getDataframe(step.inputStream(0))
-    val preticate=expr(step.params.get("filerPredicate"))
+    val preticate=expr(step.params.get("filterPredicate"))
     if (inputDf == null) {
       throw new IllegalArgumentException("Input DataFrame cannot be null for FilterProcessor")
     }

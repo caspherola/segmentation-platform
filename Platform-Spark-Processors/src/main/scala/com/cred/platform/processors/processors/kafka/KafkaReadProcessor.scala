@@ -10,11 +10,7 @@ object KafkaReadProcessor extends Processor{
   override val processorName: String = "READ_KAFKA"
 
   override def process(step: Step, context: ProcessorContext): Unit = {
-
-    val inputStream = step.inputStream
-    if (inputStream == null || inputStream.isEmpty) {
-      throw new IllegalArgumentException("Input stream cannot be null or empty for KafkaReadProcessor")
-    }
+    val kafkaSource= context.getPlan.getDatasource(step.params.get("sourceName"))
     val kafkaParams = JavaConverters.mapAsScalaMap(step.params)
     if (kafkaParams == null || kafkaParams.isEmpty) {
       throw new IllegalArgumentException("Kafka parameters cannot be null or empty for KafkaReadProcessor")
@@ -25,6 +21,7 @@ object KafkaReadProcessor extends Processor{
       .readStream
       .format("kafka")
       .options(readerOps)
+      .options(JavaConverters.mapAsScalaMap(kafkaSource.params))
       .load()
 
     // Add the DataFrame to the context for further processing

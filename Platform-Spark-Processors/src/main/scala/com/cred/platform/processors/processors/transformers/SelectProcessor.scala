@@ -14,7 +14,7 @@ object SelectProcessor extends Processor{
     if (inputDf == null) {
       throw new IllegalArgumentException("Input DataFrame cannot be null for SelectProcessor")
     }
-    val selectColums= step.params.get("selectColumns").trim.split(",").map(x=>expr(x))
+    val selectColums= step.params.get("columnNames").trim.split(",").map(x=>expr(x))
     val outputDf=inputDf.select(selectColums:_*)
     context.addDataframe(step.outputStream.head, outputDf)
   }

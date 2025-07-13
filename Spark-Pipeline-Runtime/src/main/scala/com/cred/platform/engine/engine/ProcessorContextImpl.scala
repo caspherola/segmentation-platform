@@ -1,7 +1,7 @@
 package com.cred.platform.engine.engine
 
-import com.cred.segmentation.commons.ProcessorContext
-import com.cred.segmentation.commons.plan.Plan
+import com.cred.platform.processors.commons.ProcessorContext
+import com.cred.platform.processors.commons.plan.Plan
 import org.apache.spark.sql.streaming.DataStreamWriter
 import org.apache.spark.sql.{DataFrame, Row}
 

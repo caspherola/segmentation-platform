@@ -1,6 +1,6 @@
 package com.cred.platform.engine.engine
 
-import com.cred.segmentation.commons.Processor
+import com.cred.platform.processors.commons.Processor
 
 import scala.collection.mutable
 
