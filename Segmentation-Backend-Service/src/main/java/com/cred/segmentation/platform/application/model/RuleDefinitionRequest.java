@@ -26,6 +26,8 @@ public class RuleDefinitionRequest {
     @JsonProperty("expression")
     private String expression;
     private boolean enabled;
+    @JsonProperty("windowAggregation")
+    private WindowAggregation windowAggregation;
 
     @Data
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -36,5 +38,14 @@ public class RuleDefinitionRequest {
         private String type;
         private String defaultValue;
         private String description;
+    }
+
+    @Data
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class WindowAggregation {
+        @JsonProperty("primaryKey")
+        private String primaryKey;
+        @JsonProperty("windowSize")
+        private String windowSize;
     }
 }

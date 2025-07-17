@@ -43,7 +43,7 @@ object RuleRunner {
 
   def getSparkJobs(inputStream: Any, jsonString: String): SparkJobManager={
     val result = jsonString.replace("\\", "").stripPrefix("\"").stripSuffix("\"")
-
+    println(result)
     val pipelineDefinition = jsonMapper.readValue(result, classOf[PipelineDefinition])
     pipelinePlan = getPipelinePlan(pipelineDefinition)
     SparkUtility.getSparkSession

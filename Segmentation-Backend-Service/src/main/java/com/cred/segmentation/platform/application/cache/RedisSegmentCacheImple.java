@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -38,6 +39,7 @@ public class RedisSegmentCacheImple implements CacheStrategy{
 
             // Update last modified timestamp
             String timestampKey = userKey + ":timestamp";
+            System.out.println("insert key: "+timestampKey);
             redisTemplate.opsForValue().set(timestampKey, LocalDateTime.now().toString());
             redisTemplate.expire(timestampKey, DEFAULT_TTL, TimeUnit.SECONDS);
 
@@ -61,6 +63,7 @@ public class RedisSegmentCacheImple implements CacheStrategy{
             }
 
             Set<String> segmentIds = segments.stream()
+                    .filter(Objects::nonNull)  // Filter out null elements
                     .map(Object::toString)
                     .collect(java.util.stream.Collectors.toSet());
 

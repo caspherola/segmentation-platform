@@ -24,6 +24,36 @@ public class DefaultPipelineGenerationStrategy implements PipelineGenerationStra
         RuleDefinitionRequest ruleRequest = request.getRuleDefinitionRequest();
         EventsStreamOutputDto outputDto= eventService.getEventById(ruleRequest.getInputEventId());
 
+        if(request.getRuleDefinitionRequest().getWindowAggregation()!=null && request.getRuleDefinitionRequest().getWindowAggregation().getPrimaryKey()!=null){
+            return createAggregationFlow(ruleRequest, outputDto, request.getRuleDefinitionRequest().getWindowAggregation());
+        }
+
+        return createExpressionFlow(ruleRequest, outputDto);
+    }
+
+   private  PipelineConfiguration createAggregationFlow(RuleDefinitionRequest ruleRequest, EventsStreamOutputDto outputDto, RuleDefinitionRequest.WindowAggregation aggregation){
+        return new PipelineBuilder()
+                .withRuleSetInfo(
+                        ruleRequest.getName() + " Pipeline",
+                        ruleRequest.getDescription(),
+                        "1.0.0",
+                        ruleRequest.getRuleId()
+                )
+                .withDataSources(
+                        outputDto,
+                        "segmentation-output-topic"
+                )
+                .withPipelineStepsAndLastAggregation(
+                        ruleRequest.getExpression(),
+                        ruleRequest.getParameters(),
+                        ruleRequest.getRuleId(),
+                        outputDto.getId(),
+                        aggregation
+                )
+                .build();
+   }
+
+    private  PipelineConfiguration createExpressionFlow(RuleDefinitionRequest ruleRequest, EventsStreamOutputDto outputDto){
         return new PipelineBuilder()
                 .withRuleSetInfo(
                         ruleRequest.getName() + " Pipeline",
