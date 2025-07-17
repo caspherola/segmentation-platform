@@ -27,6 +27,9 @@ public class RuleCreationUserService {
         users.put("analyst-token", new SegmentationCreateUser("analyst", "analyst"));
 
         // Marketer user - has view and create permissions only
+        users.put("operation-token", new SegmentationCreateUser("operation", "operation"));
+
+        // Marketer user - has view and create permissions only
         users.put("marketer-token", new SegmentationCreateUser("marketer", "marketer"));
     }
 
