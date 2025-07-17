@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @RestController
@@ -26,6 +27,8 @@ public class RuleDefinitionController {
 
     @PostMapping
     public ResponseEntity<RuleDefinitionResponse> createRule(@Valid @RequestBody SegmentCreationRequest request) {
+        String ruleId = "SEGMENT-" + new Random().nextInt(1000000);
+        request.getRuleDefinitionRequest().setRuleId(ruleId);
         RuleDefinitionResponse response = service.createRule(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

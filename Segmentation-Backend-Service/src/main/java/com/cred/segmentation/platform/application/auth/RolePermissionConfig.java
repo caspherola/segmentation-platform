@@ -29,6 +29,11 @@ public class RolePermissionConfig {
         rolePermissions.put("marketer", EnumSet.of(
                 Permission.VIEW, Permission.CREATE
         ));
+
+        // operations - only view
+        rolePermissions.put("operations", EnumSet.of(
+                Permission.VIEW
+        ));
     }
 
     public Set<Permission> getPermissions(String role) {

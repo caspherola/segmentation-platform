@@ -15,9 +15,11 @@ import java.util.UUID;
 public class RuleDefinitionResponse {
 
     private UUID id;
+    @JsonProperty("ruleId")
     private String ruleId;
     private String name;
     private String description;
+    @JsonProperty("inputEventType")
     private String inputEventType;
     private List<ParameterResponse> parameters;
     private String expression;
