@@ -1,0 +1,47 @@
+# =====================================================
+# PR Validation Configuration
+# =====================================================
+# Place this file in your repository at:
+#   .github/pr-validation.yml
+#
+# This file configures how the PR Validation Bot
+# validates pull requests in your repository.
+# =====================================================
+
+# -----------------------------------------------------
+# Validation Thresholds
+# -----------------------------------------------------
+# Configure the limits for PR validations
+
+# Maximum age of a PR in days
+# PRs older than this will fail validation
+pr_max_age_days: 30
+
+# Maximum age of commits in days
+# PRs with commits older than this will fail validation
+commit_max_age_days: 14
+
+# Maximum total lines changed (additions + deletions)
+# PRs with more changes than this will fail validation
+pr_max_diff_lines: 1000
+
+# -----------------------------------------------------
+# Enable/Disable Checks (Optional)
+# -----------------------------------------------------
+# You can disable specific checks if needed
+# By default, all checks are enabled
+
+enabled:
+  pr_age: true           # Check if PR is too old
+  stale_commits: true    # Check for old commits
+  diff_size: true        # Check if PR is too large
+
+# -----------------------------------------------------
+# Custom Messages (Optional)
+# -----------------------------------------------------
+# Customize the failure messages for your team
+
+# messages:
+#   pr_age_fail: "This PR is too old! Please rebase and create a fresh PR."
+#   stale_commits_fail: "Some commits are outdated. Please rebase on latest main."
+#   diff_size_fail: "PR is too large. Break it into smaller, focused changes."
