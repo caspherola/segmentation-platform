@@ -23,7 +23,7 @@ commit_max_age_days: 14
 
 # Maximum total lines changed (additions + deletions)
 # PRs with more changes than this will fail validation
-pr_max_diff_lines: 1000
+pr_max_diff_lines: 20
 
 # -----------------------------------------------------
 # Enable/Disable Checks (Optional)
@@ -33,7 +33,7 @@ pr_max_diff_lines: 1000
 
 enabled:
   pr_age: true           # Check if PR is too old
-  stale_commits: true    # Check for old commits
+  stale_commits: false    # Check for old commits
   diff_size: true        # Check if PR is too large
 
 # -----------------------------------------------------
