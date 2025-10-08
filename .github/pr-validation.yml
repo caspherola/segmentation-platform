@@ -41,8 +41,8 @@ enabled:
 # -----------------------------------------------------
 # Customize the failure messages for your team
 
-# messages:
-#   pr_age_fail: "This PR is too old! Please rebase and create a fresh PR."
-#   stale_commits_fail: "Some commits are outdated. Please rebase on latest main."
-#   diff_size_fail: "PR is too large. Break it into smaller, focused changes."
+messages:
+  pr_age_fail: "This PR is too old! Please rebase and create a fresh PR."
+  stale_commits_fail: "Some commits are outdated. Please rebase on latest main."
+  diff_size_fail: "PR is too large. Break it into smaller, focused changes."
 
