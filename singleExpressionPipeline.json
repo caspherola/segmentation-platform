@@ -101,6 +101,112 @@
               "sourceName": "kafkaInsightOutput"
             }
         }
+      {
+  "ruleSetInfo": {
+    "name": "Sample Pipeline",
+    "description": "A sample pipeline for demonstration purposes.",
+    "version": "1.0.0",
+    "id": "1"
+  },
+  "pipelineRuleDefinition": {
+    "datasource": [
+      {
+        "sourceType": "kafka",
+        "sourceName": "kafkaSource",
+        "params": {
+            "subscribe": "input-topic",
+            "kafka.bootstrap.servers": "localhost:9092"
+        }
+      },
+      {
+        "sourceType": "kafka",
+        "sourceName": "kafkaInsightOutput",
+        "params": {
+          "subscribe": "segementation-output-topic",
+          "kafka.bootstrap.servers": "localhost:9092"
+        }
+      }
+    ],
+    "pipelineFlow": [
+      {
+        "stepName": "read event stream from kafka",
+        "stepType": "READ_KAFKA",
+        "outputStream": [
+          "DATA_READ_KAFKA_STEP1"
+        ],
+        "params": {
+          "sourceName": "kafkaSource",
+          "reader.option.startingOffsets": "latest",
+          "reader.option.maxOffsetsPerTrigger": "100"
+        }
+      },{
+      "stepName": "apply schema mapping",
+      "stepType": "SCHEMA_MAPPING",
+      "inputStream": [ "DATA_READ_KAFKA_STEP1" ],
+      "outputStream": [ "SCHEMA_APPLIED_STEP2" ],
+      "params": {
+        "schema": "kafkaSource"
+      }
+      },
+      {
+        "stepName": "add derived fields",
+        "stepType": "ADD_COLUMNS",
+        "inputStream": [ "SCHEMA_APPLIED_STEP2" ],
+        "outputStream": [ "VARIABLE_PREPARATION_STEP3" ],
+        "params": {
+          "column.amount": "transation_amount",
+          "column.transactionType": "transaction_type"
+        }
+      },
+      {
+        "stepName": "Evaluate expression",
+        "stepType": "ADD_COLUMNS",
+        "inputStream": [ "VARIABLE_PREPARATION_STEP3" ],
+        "outputStream": [ "SEGEMENTATION_EVALUATED_STEP4" ],
+        "params": {
+          "column.segmentId": "CASE WHEN amount >100 THEN 'S1' WHEN amount >50 THEN 'S2' WHEN amount<100 THEN 's3' WHEN amount ==100 THEN 's4' WHEN transactionType ='credit' THEN 's5' ELSE NULL END"
+        }
+      },
+      {
+        "stepName": "Filter records with are segmented",
+        "stepType": "FILTER",
+        "inputStream": [ "SEGEMENTATION_EVALUATED_STEP4" ],
+        "outputStream": [ "FILTERED_SEGEMENTED_STEP5" ],
+        "params": {
+          "filterPredicate": "segmentId IS NOT NULL"
+        }
+      },
+      {
+        "stepName": "create unformed insight model",
+        "stepType": "ADD_COLUMNS",
+        "inputStream": [ "FILTERED_SEGEMENTED_STEP5" ],
+        "outputStream": [ "INSIGHT_MODEL_CREATED_STEP6" ],
+        "params": {
+          "column.value": "to_json(struct(uuid() as insightId, segmentId, userId, current_timestamp() as createdAt)) as value",
+          "column.key": "key",
+          "column.topic": "insight-topic"
+        }
+      },
+      {
+        "stepName": "select columns",
+        "stepType": "SELECT",
+        "inputStream": [ "INSIGHT_MODEL_CREATED_STEP6" ],
+        "outputStream": [ "INSIGHT_MODEL_CREATED_STEP7" ],
+        "params": {
+          "columnNames": "key, value, topic"
+        }
+      },
+        {
+            "stepName": "write to kafka",
+            "stepType": "WRITE_KAFKA",
+            "inputStream": [ "INSIGHT_MODEL_CREATED_STEP7" ],
+            "params": {
+              "sourceName": "kafkaInsightOutput"
+            }
+        }
+    ]
+  }
+}
     ]
   }
 }
